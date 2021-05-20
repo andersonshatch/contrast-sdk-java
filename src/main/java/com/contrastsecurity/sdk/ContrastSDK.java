@@ -34,6 +34,7 @@ import com.contrastsecurity.http.*;
 import com.contrastsecurity.models.*;
 import com.contrastsecurity.models.dtm.ApplicationCreateRequest;
 import com.contrastsecurity.models.dtm.AttestationCreateRequest;
+import com.contrastsecurity.models.oss.dependencytree.DependencyTreeBody;
 import com.contrastsecurity.utils.ContrastSDKUtils;
 import com.contrastsecurity.utils.MetadataDeserializer;
 import com.google.gson.Gson;
@@ -343,6 +344,21 @@ public class ContrastSDK {
             reader = new InputStreamReader(is);
 
             return this.gson.fromJson(reader, Organizations.class);
+        } finally {
+            IOUtils.closeQuietly(reader);
+            IOUtils.closeQuietly(is);
+        }
+    }
+
+    public DependencyTreeBody createDependencyTreeSnapshot(String organizationId, String applicationId, DependencyTreeBody body)
+       throws IOException, UnauthorizedException{
+        InputStream is = null;
+        InputStreamReader reader = null;
+        try {
+            is = makeRequestWithBody(HttpMethod.POST, urlBuilder.getApplicationDependencyTreeSnapshotUrl(organizationId, applicationId), this.gson.toJson(body), MediaType.JSON);
+            reader = new InputStreamReader(is);
+
+            return this.gson.fromJson(reader, DependencyTreeBody.class);
         } finally {
             IOUtils.closeQuietly(reader);
             IOUtils.closeQuietly(is);

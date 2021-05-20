@@ -43,6 +43,10 @@ public class UrlBuilder {
         return String.format("/ng/integrations/organizations/%s/applications", organizationId);
     }
 
+    public String getApplicationDependencyTreeSnapshotUrl(String organizationId, String appId) {
+        return String.format("/ng/sca/organizations/%s/applications/%s/snapshots", organizationId, appId);
+    }
+
     public String getApplicationByNameAndLanguageUrl(String organizationId, String appName, String language) {
         return String.format("/ng/integrations/organizations/%s/applications?name=%s&language=%s", organizationId, appName, language);
     }
